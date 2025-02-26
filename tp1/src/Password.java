@@ -41,7 +41,7 @@ public class Password {
     public static String bruteForce6Digit(String targetHash) {
 
         for (int i = 0; i < 1000000; i++) {
-            String indiceString = String.format("%06d", 123);
+            String indiceString = String.format("%06d", i);
             String indiceStringHashe = hashPassword(indiceString);
             if (indiceStringHashe.equals(targetHash)) {
                 return indiceString;
@@ -67,10 +67,29 @@ public class Password {
      * @return true if the password is strong, false otherwise
      */
     public static boolean isStrongPassword(String password) {
+        if (password.length() <= 12) {
+            return false;
+        }
+        boolean contientUneMajuscule = false;
+        boolean contientUneMiniscule = false;
+        boolean contientUnChifre = false;
+        boolean estUnEspace = false;
+        for (int i = 0; i < password.length(); i++) {
+            char caractere = password.charAt(i);
+            if (Character.isUpperCase(caractere)) {
+                contientUneMajuscule = true;
+            } else if (Character.isLowerCase(caractere)) {
+                contientUneMiniscule = true;
+            } else if (Character.isDigit(caractere)) {
+                contientUnChifre = false;
 
-        // Code here
+            } else if (Character.isWhitespace(caractere)) {
+                estUnEspace = true;
+            }
 
-        return false;
+        }
+
+        return contientUnChifre && contientUneMajuscule && contientUneMiniscule && !estUnEspace;
     }
 
     /**
