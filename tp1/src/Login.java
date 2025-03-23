@@ -10,9 +10,22 @@ public class Login {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            System.out.println("Veuillez entrer votre nom d'utilisateur :");
+            String pseudo = scanner.nextLine();
+            if (userDatabase.containsKey(pseudo)) {
+                System.out.println("Veuillez entrer le password :");
+                String mdp = scanner.nextLine();
+                if (userDatabase.get(pseudo).equals(mdp)) {
+                    System.out.println(" Login successful!");
+                    break;
+                }
+                System.out.println("Mot de passe incorrect ");
 
-            // Code here
+            } else {
+                System.out.println("Pseudo inconnu !");
+            }
         }
+        scanner.close();
     }
 
     /**
