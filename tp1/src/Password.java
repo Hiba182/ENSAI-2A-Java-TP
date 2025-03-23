@@ -1,6 +1,8 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +69,7 @@ public class Password {
      * @return true if the password is strong, false otherwise
      */
     public static boolean isStrongPassword(String password) {
-        if (password.length() <= 12) {
+        if (password.length() < 12) {
             return false;
         }
         boolean contientUneMajuscule = false;
@@ -81,7 +83,7 @@ public class Password {
             } else if (Character.isLowerCase(caractere)) {
                 contientUneMiniscule = true;
             } else if (Character.isDigit(caractere)) {
-                contientUnChifre = false;
+                contientUnChifre = true;
 
             } else if (Character.isWhitespace(caractere)) {
                 estUnEspace = true;
@@ -101,10 +103,11 @@ public class Password {
      *         true if the password is strong, false otherwise
      */
     public static HashMap<String, Boolean> checkPasswordsList(ArrayList<String> passwords) {
-
-        // Code here
-
-        return null;
+        HashMap<String, Boolean> map = new HashMap<String, Boolean>();
+        for (int i = 0; i < passwords.size(); i++) {
+            map.put(passwords.get(i), isStrongPassword(passwords.get(i)));
+        }
+        return map;
     }
 
     /**
@@ -120,10 +123,42 @@ public class Password {
      * @return A randomly generated password that meets the security criteria.
      */
     public static String generatePassword(int nbCar) {
+        if (nbCar < 4) {
+            throw new IllegalArgumentException("Le mot de passe doit avoir au moins 4 caractères.");
+        }
 
-        // Code here
+        final String MAJUSCULES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        final String MINUSCULES = "abcdefghijklmnopqrstuvwxyz";
+        final String CHIFFRES = "0123456789";
+        final String SPECIAUX = "!@#$%^&*()-_=+[]{}|;:',.<>?/";
 
-        return null;
+        SecureRandom random = new SecureRandom();
+
+        List<Character> passwordChars = new ArrayList<>();
+
+        // Assure au moins une majuscule, une minuscule, un chiffre, et un caractère
+        // spécial
+        passwordChars.add(MAJUSCULES.charAt(random.nextInt(MAJUSCULES.length())));
+        passwordChars.add(MINUSCULES.charAt(random.nextInt(MINUSCULES.length())));
+        passwordChars.add(CHIFFRES.charAt(random.nextInt(CHIFFRES.length())));
+        passwordChars.add(SPECIAUX.charAt(random.nextInt(SPECIAUX.length())));
+
+        // Remplir le reste du mot de passe avec des caractères aléatoires
+        String allChars = MAJUSCULES + MINUSCULES + CHIFFRES + SPECIAUX;
+        for (int i = 4; i < nbCar; i++) {
+            passwordChars.add(allChars.charAt(random.nextInt(allChars.length())));
+        }
+
+        // Mélange pour éviter que les 4 premiers caractères soient prévisibles
+        Collections.shuffle(passwordChars, random);
+
+        // Convertit la liste en String
+        StringBuilder password = new StringBuilder();
+        for (char c : passwordChars) {
+            password.append(c);
+        }
+
+        return password.toString();
     }
 
     public static void main(String[] args) {
