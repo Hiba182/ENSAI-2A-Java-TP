@@ -2,7 +2,6 @@
     "editor.inlayHints.enabled": "off",
     "editor.formatOnSave": true,
     "java.saveActions.organizeImports": true,
-    "cSpell.words": [
-        "ensai"
-    ],
+    "cSpell.diagnosticLevel": "Hint",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
