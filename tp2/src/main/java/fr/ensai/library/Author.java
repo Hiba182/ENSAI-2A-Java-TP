@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Represents an Author.
  */
-public class Author {
+public class Author extends Person {
 
     // Attributes
     private String name;

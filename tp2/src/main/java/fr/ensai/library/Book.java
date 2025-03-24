@@ -3,7 +3,7 @@ package fr.ensai.library;
 /**
  * Represents a book.
  */
-public class Book {
+public class Book extends Item {
 
     // Attributes
     private String isbn;
